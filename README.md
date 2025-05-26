@@ -1,6 +1,6 @@
 # myBhutan-cloud-server-project
 
-## 📖 About
+## About
 This project is a static tourism website called **myBhutan**, deployed on an AWS EC2 instance using Apache web server. It aims to showcase the beauty and travel highlights of Bhutan.
 
 ---
