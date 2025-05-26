@@ -3,7 +3,8 @@
 ## About
 This project is a static tourism website called **myBhutan**, deployed on an AWS EC2 instance using Apache web server. It aims to showcase the beauty and travel highlights of Bhutan.
 
----
+### Video Walkthrough
+Click here to watch the full walkthrough - link to access the video explaining the project 
 
 ##  Technologies Used
 - HTML / CSS
@@ -21,8 +22,16 @@ This project is a static tourism website called **myBhutan**, deployed on an AWS
 - Set up security groups to allow ports 22, 80, 443
 
 ### 2. Installed Apache
-```bash
+bash
 sudo apt update  
 sudo apt install apache2
+
+## Security Setup 
+SSH key authentication
+Enabled UFW firewall:
+
+## Live Site
+link to the public ip - Visit myBhutan website
+
 
 
