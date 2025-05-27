@@ -1,13 +1,13 @@
 # myBhutan-cloud-server-project
 
-## About
+## myBhutan Project Overview
 This project is a static tourism website called **myBhutan**, deployed on an AWS EC2 instance using Apache web server. It aims to showcase the beauty and travel highlights of Bhutan.
 
 ### Video Walkthrough
 Click here to watch the full walkthrough - link to access the video explaining the project 
 
 ##  Technologies Used
-- HTML / CSS
+- HTML / CSS 
 - Apache2
 - AWS EC2 (Ubuntu 22.04)
 - Domain: GoDaddy (.com)
@@ -37,12 +37,17 @@ Click here to watch the full walkthrough - link to access the video explaining t
 
 
 ## Security Setup 
-- SSH key authentication
-- SSL installation using Certbot
+### SSH key authentication - add inbound rules on EC2 instance dialog box
+- Select the running instance
+- Scroll to the bottom of the instance details pane.
+- Under Security, click the Security group name
+- Click “Edit inbound rules
+- Save the rule 
+- 
 
-### Run Certbot inside EC2 to turn your website to https
+### SSL installation using Certbot inside EC2 to turn your website to https
 - sudo apt update
-- sudo apt install certbot python3-certbot-apache -y
+- sudo snap install --classic certbot -  to install Certbot
 - sudo certbot --apache -d my-bhutan.com -d www.my-bhutan.com
 
 
