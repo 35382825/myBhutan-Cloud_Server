@@ -50,6 +50,17 @@ Click here to watch the full walkthrough - link to access the video explaining t
 - sudo snap install --classic certbot -  to install Certbot
 - sudo certbot --apache -d my-bhutan.com -d www.my-bhutan.com
 
+### Scripting using bash script and cronjob for backup 
+-  run mkdir /home/ubuntu/backups in the terminal
+-  nano /home/ubuntu/backup-webroot.sh - write down the script for the backup as you desire. save and exit. 
+-  chmod +x /home/ubuntu/backup-webroot.sh - execute the script
+-  run the command /home/ubuntu/backup-webroot.sh to test.
+-  ls /home/ubuntu/backups - check the backup file 
+
+
+
+
+
 
 ## Live Site
 link to the public ip - Visit myBhutan website
