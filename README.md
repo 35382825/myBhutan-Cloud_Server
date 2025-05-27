@@ -10,9 +10,9 @@ Click here to watch the full walkthrough - link to access the video explaining t
 - HTML / CSS
 - Apache2
 - AWS EC2 (Ubuntu 22.04)
+- Domain: GoDaddy (.com)
 - GitHub
 
----
 
 ## Deployment Steps
 
@@ -20,11 +20,18 @@ Click here to watch the full walkthrough - link to access the video explaining t
 - Chose Ubuntu 22.04 LTS
 - Selected t2.micro instance
 - Set up security groups to allow ports 22, 80, 443
+- ssh -i "myBhutanweb.pem" ubuntu@your-ec2-ip
 
 ### 2. Installed Apache
-bash
-sudo apt update  
-sudo apt install apache2
+- sudo apt update  
+- sudo apt install apache2 -y
+
+### 3. upload and unzip my folder with website content 
+- scp -i "myBhutanweb.pem" myBhutanWebsite.zip ubuntu@your-ec2-ip:~
+- 
+- unzip myBhutanWebsite.zip
+- sudo cp -r myBhutanWebsite/* /var/www/html/
+
 
 ## Security Setup 
 SSH key authentication
