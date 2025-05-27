@@ -32,10 +32,19 @@ Click here to watch the full walkthrough - link to access the video explaining t
 - unzip myBhutanWebsite.zip
 - sudo cp -r myBhutanWebsite/* /var/www/html/
 
+### 4. Restart Apache
+- sudo systemctl restart apache2
+
 
 ## Security Setup 
-SSH key authentication
-Enabled UFW firewall:
+- SSH key authentication
+- Enabled UFW firewall:
+
+### Run Certbot inside EC2 to turn your website to https
+- sudo apt update
+- sudo apt install certbot python3-certbot-apache -y
+- sudo certbot --apache -d my-bhutan.com -d www.my-bhutan.com
+
 
 ## Live Site
 link to the public ip - Visit myBhutan website
