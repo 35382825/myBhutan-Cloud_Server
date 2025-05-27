@@ -38,7 +38,7 @@ Click here to watch the full walkthrough - link to access the video explaining t
 
 ## Security Setup 
 - SSH key authentication
-- Enabled UFW firewall:
+- SSL installation using Certbot
 
 ### Run Certbot inside EC2 to turn your website to https
 - sudo apt update
@@ -48,6 +48,7 @@ Click here to watch the full walkthrough - link to access the video explaining t
 
 ## Live Site
 link to the public ip - Visit myBhutan website
+- https://www.my-bhutan.com
 
 
 
