@@ -26,7 +26,7 @@ Click here to watch the full walkthrough - link to access the video explaining t
 - sudo apt update  
 - sudo apt install apache2 -y
 
-### 3. upload and unzip my folder with website content 
+### 3. Upload and unzip my folder with website content 
 - scp -i "myBhutanweb.pem" myBhutanWebsite.zip ubuntu@your-ec2-ip:~
 - 
 - unzip myBhutanWebsite.zip
@@ -56,10 +56,6 @@ Click here to watch the full walkthrough - link to access the video explaining t
 -  chmod +x /home/ubuntu/backup-webroot.sh - execute the script
 -  run the command /home/ubuntu/backup-webroot.sh to test.
 -  ls /home/ubuntu/backups - check the backup file 
-
-
-
-
 
 
 ## Live Site
