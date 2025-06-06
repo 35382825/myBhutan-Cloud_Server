@@ -16,7 +16,7 @@ Click here to watch the full walkthrough - link to access the video explaining t
 - Bash scripting & Cron jobs (for backups)
 
 
-#### Deployment Steps
+## Deployment Steps
 
 ### 1. Launched EC2 Instance on AWS Platform 
 - Login to my AWS account 
@@ -52,12 +52,12 @@ modifications made to the configuration file.# sudo systemctl reload apache2
 - sudo systemctl restart apache2
 
 ### 5. Configure domain name with public IP
-## Domain Provider for the Project - GoDaddy
+- **Domain Provider for the Project - GoDaddy**
 - Create a new account in GoDaddy to purchase the desired domain.
 - login into the account and search for the domain
 - purchase the domain and checkout.
   
-## connect your domain to EC2 server
+### connect your domain to EC2 server
 - Go to GoDaddy → Manage Domains → DNS → Manage Zones.
 - Find your domain my-bhutan.com.
 - Under DNS Records, create or update these A Records:
@@ -67,7 +67,7 @@ modifications made to the configuration file.# sudo systemctl reload apache2
 - After DNS propagates, go to your browser and http://my-bhutan.com / http://www.my-bhutan.com which link show your website hosted of EC2. 
 
 
-###### Security Setup 
+# Security Setup 
 ### SSH key authentication - add inbound rules on EC2 instance dialog box
 - Select the running instance
 - Scroll to the bottom of the instance details pane.
@@ -89,7 +89,7 @@ modifications made to the configuration file.# sudo systemctl reload apache2
 -  ls /home/ubuntu/backups - check the backup file 
 
 
-###### Live Site
+# Live Site
 link to the public ip - Visit myBhutan website
 - https://www.my-bhutan.com
 
