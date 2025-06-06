@@ -52,17 +52,17 @@ modifications made to the configuration file.# sudo systemctl reload apache2
 - sudo systemctl restart apache2
 
 ### 5. Configure domain name with public IP
-# Domain Provider for the Project - GoDaddy
+## Domain Provider for the Project - GoDaddy
 - Create a new account in GoDaddy to purchase the desired domain.
 - login into the account and search for the domain
 - purchase the domain and checkout.
   
-# connect your domain to EC2 server
+## connect your domain to EC2 server
 - Go to GoDaddy → Manage Domains → DNS → Manage Zones.
 - Find your domain my-bhutan.com.
 - Under DNS Records, create or update these A Records:
-# A	@	your EC2 Public IPv4 address	1 hour or default
-# A	www	your EC2 Public IPv4 address	1 hour or default
+#A	@	your EC2 Public IPv4 address	1 hour or default
+#A	www	your EC2 Public IPv4 address	1 hour or default
 - Wait for DNS to propagate as it might take some time.
 - After DNS propagates, go to your browser and http://my-bhutan.com / http://www.my-bhutan.com which link show your website hosted of EC2. 
 
