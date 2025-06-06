@@ -33,18 +33,23 @@ Click here to watch the full walkthrough - link to access the video explaining t
 - create a directory for your domain my-bhutan by applying #sudo mkdir /var/www/ my-bhutan
 - perform # sudo chown -R $USER:$USER /var/www/ my-bhutan to assign the ownership of the directory to the user you are currently signed in as.
 - allow permission to read,write and execute to the owner and read and execute to the groups and others involved with # sudo chmod -R 755 /var/www/ my-bhutan
+- add virtual host folder # sudo nano /etc/apache2/sites-available/my-bhutan.com.conf
 - create sample index html using nano and save the file by # sudo nano /var/www/ my-bhutan /index.html and # Ctrl+O → Enter → Ctrl+X
 - Copy the default Apache config to create your own site config so that you dont have to touch the default file by sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/my-bhutan.conf
 - Edit the new config file with your domain and web folder details by sudo nano /etc/apache2/sites-available/my-bhutan.conf
-- reload the server before executing the a2ensite command due to 
-modifications made to the configuration file.# sudo systemctl reload apache2
+- reload the server before executing the a2ensite command due to modifications made to the configuration file.# sudo systemctl reload apache2
 - enable the file with the a2ensite tool: # sudo a2ensite my-bhutan.conf
 - Disable the default site 000-default.conf so that Apache uses only your VirtualHost (my-bhutan.conf) to serve your website without any confusion and issues. # sudo a2dissite 000-default.conf
+- check your work by # ls /etc/apache2/sites-available/
+
 
 
 ### 4. Upload and unzip my folder with website content 
-- scp -i "myBhutanweb.pem" myBhutanWebsite.zip ubuntu@your-ec2-ip:~
-- 
+- enable your virtual host. #sudo a2ensite my-bhutan.com.conf
+- reload the Apache #sudo systemctl reload apache2
+- exit the ec2 and perform 
+- scp -i "myBhutanweb.pem" myBhutanWebsite.zip ubuntu@your-ec2-ip:~ on your local computer
+- then ssh -i "myBhutanweb.pem" ubuntu@3.27.146.62 to EC2
 - unzip myBhutanWebsite.zip
 - sudo cp -r myBhutanWebsite/* /var/www/html/
 
