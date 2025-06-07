@@ -82,16 +82,51 @@ Click here to watch the full walkthrough - link to access the video explaining t
 - 
 
 ### SSL installation using Certbot inside EC2 to turn your website to https
-- sudo apt update
-- sudo snap install --classic certbot -  to install Certbot
-- sudo certbot --apache -d my-bhutan.com -d www.my-bhutan.com
+* Encrypt traffic between your server and users' browsers — required for HTTPS (https://my-bhutan.com).
+* Let's Encrypt using Certbot
+  - Let’s Encrypt provides free SSL certificates.
+  - Certbot is the tool to request + auto-renew these certificates.
+1.Let's Encrypt using Certbot 
+-  sudo apt update && sudo apt upgrade –y
+-  sudo apt install snapd
+2. Remove certbot-auto and any Certbot OS packages 
+  - sudo apt-get remove certbot  
+3.  sudo snap install --classic certbot -  to install Certbot
+* Request or renew an SSL certificate from Let’s Encrypt
+   - sudo certbot -apache -d my-bhutan.com -d www.my-bhutan.com
 
-### Scripting using bash script and cronjob for backup 
--  run mkdir /home/ubuntu/backups in the terminal
--  nano /home/ubuntu/backup-webroot.sh - write down the script for the backup as you desire. save and exit. 
--  chmod +x /home/ubuntu/backup-webroot.sh - execute the script
--  run the command /home/ubuntu/backup-webroot.sh to test.
--  ls /home/ubuntu/backups - check the backup file 
+### Scripting using bash script and cronjob 
+* Automatic backup of the website folder
+- sudo mkdir -p /home/mybhutan/backup -create a backup folder</home/ubuntu/backups/>
+- or run mkdir /home/ubuntu/backups in the terminal
+- ls -lh /home/mybhutan – check if folder is created or not 
+- create the backup script # sudo nano /home/ubuntu/backup-mybhutan.sh. Save and exit
+- execute the script - sudo chmod +x /home/ubuntu/backup-mybhutan.sh
+-  run the command to test - sudo /home/ubuntu/backup-mybhutan.sh
+-  ls /home/ubuntu/backups - check the backup file
+- 
+### Set up the automatic daily backup (cronjob)
+-   On the terminal, type #crontab -e  
+- Add the script as below 0 2 * * * /home/ubuntu/backup-mybhutan.sh 
+ * This means: run every day at 2:00 AM
+- Save (Ctrl + O, then Enter) → Exit (Ctrl + X).
+
+ # Challenges and Troubleshooting
+ 1.	DNS Changes Not Reflecting Immediately
+•	Problem: After updating the domain’s A records, changes didn’t appear instantly, causing confusion.
+•	Solution: Used public DNS resolvers (nslookup www.mybhutan.com 8.8.8.8) and tools like dnschecker.org to track global propagation. Waited until updates were globally live before continuing.
+2.	Apache Virtual Host Not Configured Initially
+•	Problem: Website was using Apache’s default config (000-default.conf), which caused conflicts during SSL installation.
+•	Solution: Created a new virtual host config (mybhutan.com.conf) with the correct ServerName, DocumentRoot, and enabled it using a2ensite.
+
+3.	Website Content Not Updating
+•	Problem: Changes made to HTML files weren’t reflecting in the browser.
+•	Solution: Cleared browser cache and restarted Apache using sudo systemctl restart apache2 to ensure updated content was served.
+
+4.	Website not visible in the browser. 
+- Problem: after completing all the configuration related to hosting the website on ec2 instance, website is not opening when you search the public ip in the browser.
+- Solution – check the ports enabled in the inbound rules under the instance > security> security group. 
+  Add the necessary port rule like port 80, port 22. 
 
 
 # Live Site
