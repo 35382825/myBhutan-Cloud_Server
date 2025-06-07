@@ -113,17 +113,18 @@ Click here to watch the full walkthrough - link to access the video explaining t
 
  # Challenges and Troubleshooting
  1.	DNS Changes Not Reflecting Immediately
-•	Problem: After updating the domain’s A records, changes didn’t appear instantly, causing confusion.
-•	Solution: Used public DNS resolvers (nslookup www.mybhutan.com 8.8.8.8) and tools like dnschecker.org to track global propagation. Waited until updates were globally live before continuing.
-2.	Apache Virtual Host Not Configured Initially
-•	Problem: Website was using Apache’s default config (000-default.conf), which caused conflicts during SSL installation.
-•	Solution: Created a new virtual host config (mybhutan.com.conf) with the correct ServerName, DocumentRoot, and enabled it using a2ensite.
+-	Problem: After updating the domain’s A records, changes didn’t appear instantly, causing confusion.
+- Solution: Used public DNS resolvers (nslookup www.mybhutan.com 8.8.8.8) and tools like dnschecker.org to track global propagation. Waited until updates were globally live before continuing.
 
-3.	Website Content Not Updating
-•	Problem: Changes made to HTML files weren’t reflecting in the browser.
-•	Solution: Cleared browser cache and restarted Apache using sudo systemctl restart apache2 to ensure updated content was served.
+3.	Apache Virtual Host Not Configured Initially
+-	Problem: Website was using Apache’s default config (000-default.conf), which caused conflicts during SSL installation.
+-	Solution: Created a new virtual host config (mybhutan.com.conf) with the correct ServerName, DocumentRoot, and enabled it using a2ensite.
 
-4.	Website not visible in the browser. 
+4.	Website Content Not Updating
+-	Problem: Changes made to HTML files weren’t reflecting in the browser.
+-	Solution: Cleared browser cache and restarted Apache using sudo systemctl restart apache2 to ensure updated content was served.
+
+5.	Website not visible in the browser. 
 - Problem: after completing all the configuration related to hosting the website on ec2 instance, website is not opening when you search the public ip in the browser.
 - Solution – check the ports enabled in the inbound rules under the instance > security> security group. 
   Add the necessary port rule like port 80, port 22. 
