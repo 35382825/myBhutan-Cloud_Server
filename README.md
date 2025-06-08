@@ -9,108 +9,164 @@ The project demonstrates end-to-end website deployment, DNS setup, SSL/TLS secur
 Click here to watch the full walkthrough - link to access the video explaining the project 
 
 ##  Technologies Used
-- HTML / CSS for website index html
+- HTML / CSS for website 
 - Ubuntu 22.04 LTS virtual machine operating system 
 - Apache2 webserver 
 - AWS EC2 as my platform to host my website 
 - GoDaddy to purchase domain for my webiste 
-- GitHub to maintain my documentation of my project 
-- Bash scripting & Cron jobs (for backups)
+- GitHub to maintain my documentation of the project 
+- Bash scripting & Cron jobs (for automated backup of my website files)
 
 
 ## Deployment Steps
 
 ### 1. Launched EC2 Instance on AWS Platform 
-- Login to my AWS account 
+- Logged to my AWS account 
 - Chose Ubuntu 22.04 LTS
 - Selected t2.micro instance
 - Set up security groups to allow ports 22, 80, 443
-- ssh -i "myBhutanweb.pem" ubuntu@your-ec2-ip
+- Connected to EC2 via SSH
+ ```bash
+  ssh -i "myBhutanweb.pem" ubuntu@3.27.146.62
 
 ### 2. Installed Apache
 - sudo apt update  
-- sudo apt install apache2 -y
+- sudo apt install apache2 -y [-y to answer yes to the prompts in the process]
 
 ### 3. Setup Virtual Host
-- create a directory for your domain my-bhutan by applying #sudo mkdir /var/www/ my-bhutan
-- perform # sudo chown -R $USER:$USER /var/www/ my-bhutan to assign the ownership of the directory to the user you are currently signed in as.
-- allow permission to read,write and execute to the owner and read and execute to the groups and others involved with # sudo chmod -R 755 /var/www/ my-bhutan
-- add virtual host folder # sudo nano /etc/apache2/sites-available/my-bhutan.com.conf
-- create sample index html using nano and save the file by # sudo nano /var/www/ my-bhutan /index.html and # Ctrl+O → Enter → Ctrl+X
-- Copy the default Apache config to create your own site config so that you dont have to touch the default file by sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/my-bhutan.conf
-- Edit the new config file with your domain and web folder details by sudo nano /etc/apache2/sites-available/my-bhutan.conf
-- reload the server before executing the a2ensite command due to modifications made to the configuration file.# sudo systemctl reload apache2
-- enable the file with the a2ensite tool: # sudo a2ensite my-bhutan.conf
-- Disable the default site 000-default.conf so that Apache uses only your VirtualHost (my-bhutan.conf) to serve your website without any confusion and issues. # sudo a2dissite 000-default.conf
-- check your work by # ls /etc/apache2/sites-available/
+A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own settings and content from the /var/www/my-bhutan directory.
+
+#### Steps
+
+1. Create a directory for my  domain "my-bhutan"
+  sudo mkdir -p /var/www/my-bhutan
+2. Assign the ownership of the directory to the current user (currently signed in as)   sudo chown -R $USER:$USER /var/www/ my-bhutan 
+3. Allow permission to read, write and execute to the owner and read and execute to the groups and others involved.
+ sudo chmod -R 755 /var/www/ my-bhutan
+4. Create a new virtual host folder
+ sudo nano /etc/apache2/sites-available/my-bhutan.com.conf
+5. Create sample index html using nano and save the file
+ sudo nano /var/www/ my-bhutan /index.html and # Ctrl+O → Enter → Ctrl+X
+6. Copy the default Apache config to create your own site config so that you dont have to touch the default file.
+  sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/my-bhutan.conf
+7. Edit the new config file with your domain and web folder details.
+  sudo nano /etc/apache2/sites-available/my-bhutan.conf
+8. Reload the server before executing the a2ensite command due to modifications made to the configuration file.
+  sudo systemctl reload apache2
+9. Enable the Virtual host with the a2ensite tool:
+  sudo a2ensite my-bhutan.conf
+10. Disable the default site ensure that Apache uses only your VirtualHost (my-bhutan.conf) to serve your website without any confusion and issues. But you can enable if required anytime. 
+ sudo a2dissite 000-default.conf
+- You can check if it's disabled as expected
+  ls /etc/apache2/sites-enabled/ OR
+11. Verify that your Virtual Host config 
+  ls /etc/apache2/sites-available/
+
+* Output :
+ 000-default.conf - means default file
+ default-ssl.conf - SSL of default file
+ my-bhutan.com.conf - Website file 
 
 
+### 3. Upload and Unzip Website Content 
+1. Enabled the virtual host. 
+  sudo a2ensite my-bhutan.com.conf
+2. Reload the Apache ro apply the changes 
+  sudo systemctl reload apache2
+3.Exit the EC2 instance
+  Exit
+4. From the local computer, upload the  website zip file to EC2:
+  scp -i "myBhutanweb.pem" myBhutanWebsite.zip ubuntu@your-ec2-ip:~ 
+5. SSH back to EC2 Instance
+  ssh -i "myBhutanweb.pem" ubuntu@3.27.146.62 
+6. Unzip the webiste file content
+  unzip myBhutanWebsite.zip
+7. Copy the website files to the web server directory
+  sudo cp -r myBhutanWebsite/* /var/www/my-bhutan/
+8. Verify the process.
+  ls -lh /var/www/my-bhutan/
+* Output - you will be able to see all the contents of your website folder displayed.
 
-### 4. Upload and unzip my folder with website content 
-- enable your virtual host. #sudo a2ensite my-bhutan.com.conf
-- reload the Apache #sudo systemctl reload apache2
-- exit the ec2 and perform 
-- scp -i "myBhutanweb.pem" myBhutanWebsite.zip ubuntu@your-ec2-ip:~ on your local computer
-- then ssh -i "myBhutanweb.pem" ubuntu@3.27.146.62 to EC2
-- unzip myBhutanWebsite.zip
-- sudo cp -r myBhutanWebsite/* /var/www/html/
 
 ### 4. Restart Apache
 - sudo systemctl restart apache2
 
 ### 5. Configure domain name with public IP
-- **Domain Provider for the Project - GoDaddy**
-- Create a new account in GoDaddy to purchase the desired domain.
+- Domain Provider for the Project - GoDaddy
+- Create a new account in GoDaddy to purchase the domain for my website. 
 - login into the account and search for the domain
-- purchase the domain and checkout.
+- Purchased domain my-bhutan.com.
   
-### connect your domain to EC2 server
+### DNS Configuration:
 - Go to GoDaddy → Manage Domains → DNS → Manage Zones.
 - Find your domain my-bhutan.com.
 - Under DNS Records, create or update these A Records:
 #A	@	your EC2 Public IPv4 address	1 hour or default
 #A	www	your EC2 Public IPv4 address	1 hour or default
-- Wait for DNS to propagate as it might take some time.
-- After DNS propagates, go to your browser and http://my-bhutan.com / http://www.my-bhutan.com which link show your website hosted of EC2. 
+- Waited for DNS to propagate as it takes some time.
+- Verified by accessing [http://my-bhutan.com](https://www.my-bhutan.com/) /  which link show your website hosted of EC2. 
 
 
-# Security Setup 
+# Security Setup
+
 ### SSH key authentication - add inbound rules on EC2 instance dialog box
 - Select the running instance
 - Scroll to the bottom of the instance details pane.
 - Under Security, click the Security group name
 - Click “Edit inbound rules
+- Added ports 22, 80, 443.
 - Save the rule 
-- 
+
 
 ### SSL installation using Certbot inside EC2 to turn your website to https
-* Encrypt traffic between your server and users' browsers — required for HTTPS (https://my-bhutan.com).
-* Let's Encrypt using Certbot
-  - Let’s Encrypt provides free SSL certificates.
-  - Certbot is the tool to request + auto-renew these certificates.
-1.Let's Encrypt using Certbot 
--  sudo apt update && sudo apt upgrade –y
--  sudo apt install snapd
-2. Remove certbot-auto and any Certbot OS packages 
-  - sudo apt-get remove certbot  
-3.  sudo snap install --classic certbot -  to install Certbot
-* Request or renew an SSL certificate from Let’s Encrypt
-   - sudo certbot -apache -d my-bhutan.com -d www.my-bhutan.com
+* Encrypt traffic between your server and user's browser. It is required for HTTPS setup for the website.(https://my-bhutan.com).
+* Secures the data tranfer between server and the user
+* SSL certificates provided by "Let's Encrypt".
+* Certbot is used to request and auto-renew these certificates.
 
-### Scripting using bash script and cronjob 
-* Automatic backup of the website folder
-- sudo mkdir -p /home/mybhutan/backup -create a backup folder</home/ubuntu/backups/>
-- or run mkdir /home/ubuntu/backups in the terminal
-- ls -lh /home/mybhutan – check if folder is created or not 
-- create the backup script # sudo nano /home/ubuntu/backup-mybhutan.sh. Save and exit
-- execute the script - sudo chmod +x /home/ubuntu/backup-mybhutan.sh
--  run the command to test - sudo /home/ubuntu/backup-mybhutan.sh
--  ls /home/ubuntu/backups - check the backup file
-- 
+#### Steps:
+1.Update and upgrade the packages:
+   sudo apt update && sudo apt upgrade –y
+   sudo apt install snapd
+2. Remove certbot-auto and any Certbot OS packages 
+   sudo apt-get remove certbot  
+3. Install Certbot using snap
+  sudo snap install --classic certbot -  
+4. Request or renew an SSL certificate from Let’s Encrypt
+   sudo certbot -apache -d my-bhutan.com -d www.my-bhutan.com
+
+### Scripting Using Bash Script and Cronjob 
+* Used to create automatic backup of the website files and stored it in /home/mybhutan/backup.
+
+#### Steps:
+1. Create a backup folder.
+  sudo mkdir -p /home/mybhutan/backup
+2. Check if the folder is created:
+  ls -lh /home/mybhutan/backup
+3. Create the script for the backup
+# sudo nano /home/ubuntu/backup-mybhutan.sh.
+4. Save and exit the script file.
+5. Make the script executable 
+  sudo chmod +x /home/ubuntu/backup-mybhutan.sh
+6. Run the script to test
+  sudo /home/ubuntu/backup-mybhutan.sh
+7. check the backup file
+  ls /home/ubuntu/backups
+* Output:
+  -rw-r--r-- 1 root root   31 Jun  7 10:28 backup.log
+  -rw-r--r-- 1 root root  491 Jun  7 10:28 my-bhutan-apache-config-2025-06-07.conf
+  -rw-r--r-- 1 root root 7.8M Jun  7 10:28 my-bhutan-site-2025-06-07.tar.gz
+
 ### Set up the automatic daily backup (cronjob)
--   On the terminal, type #crontab -e  
-- Add the script as below 0 2 * * * /home/ubuntu/backup-mybhutan.sh 
- * This means: run every day at 2:00 AM
+- Automates the backup process using cronjob.
+- Ensures that the website and its configuration are backed up daily without requiring manual action from the user.
+
+#### Steps:
+1. Open the crontab editor:
+   # crontab -e  
+- Add the following line at the bottom:
+   0 2 * * * /home/ubuntu/backup-mybhutan.sh 
+ * This means:Run the backup script automatically every day at 2:00 AM.
 - Save (Ctrl + O, then Enter) → Exit (Ctrl + X).
 
  # Challenges and Troubleshooting
