@@ -36,29 +36,37 @@ Click here to watch the full walkthrough - link to access the video explaining t
 ### 3. Setup Virtual Host
 A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own settings and content from the /var/www/my-bhutan directory.
 
-#### Steps
-
  - Create a directory for my  domain "my-bhutan"
   sudo mkdir -p /var/www/my-bhutan
+
 - Assign the ownership of the directory to the current user (currently signed in as)   sudo chown -R $USER:$USER /var/www/ my-bhutan 
 - Allow permission to read, write and execute to the owner and read and execute to the groups and others involved.
  sudo chmod -R 755 /var/www/ my-bhutan
+
 - Create a new virtual host folder
  sudo nano /etc/apache2/sites-available/my-bhutan.com.conf
+
 - Create sample index html using nano and save the file
  sudo nano /var/www/ my-bhutan /index.html and # Ctrl+O → Enter → Ctrl+X
+
 - Copy the default Apache config to create your own site config so that you dont have to touch the default file.
   sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/my-bhutan.conf
+
 - Edit the new config file with your domain and web folder details.
   sudo nano /etc/apache2/sites-available/my-bhutan.conf
+
 - Reload the server before executing the a2ensite command due to modifications made to the configuration file.
   sudo systemctl reload apache2
+
 - Enable the Virtual host with the a2ensite tool:
   sudo a2ensite my-bhutan.conf
+
 - Disable the default site ensure that Apache uses only your VirtualHost (my-bhutan.conf) to serve your website without any confusion and issues. But you can enable if required anytime. 
  sudo a2dissite 000-default.conf
+
 - You can check if it's disabled as expected
   ls /etc/apache2/sites-enabled/ OR
+
 - Verify that your Virtual Host config 
   ls /etc/apache2/sites-available/
 
