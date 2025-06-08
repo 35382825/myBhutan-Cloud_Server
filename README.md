@@ -112,24 +112,47 @@ Click here to watch the full walkthrough - link to access the video explaining t
 - Save (Ctrl + O, then Enter) → Exit (Ctrl + X).
 
  # Challenges and Troubleshooting
- 1.	DNS Changes Not Reflecting Immediately
--	Problem: After updating the domain’s A records, changes didn’t appear instantly, causing confusion.
-- Solution: Used public DNS resolvers (nslookup www.mybhutan.com 8.8.8.8) and tools like dnschecker.org to track global propagation. Waited until updates were globally live before continuing.
 
-3.	Apache Virtual Host Not Configured Initially
--	Problem: Website was using Apache’s default config (000-default.conf), which caused conflicts during SSL installation.
--	Solution: Created a new virtual host config (mybhutan.com.conf) with the correct ServerName, DocumentRoot, and enabled it using a2ensite.
+1. DNS Changes Not Reflecting Immediately
+   - Problem: After updating the domain’s A records, changes didn’t appear instantly, causing confusion.
+   - Solution: Used public DNS resolvers (`nslookup www.mybhutan.com 8.8.8.8`) and tools like `dnschecker.org` to track global propagation. - Waited until updates were globally live before continuing.
 
-4.	Website Content Not Updating
--	Problem: Changes made to HTML files weren’t reflecting in the browser.
--	Solution: Cleared browser cache and restarted Apache using sudo systemctl restart apache2 to ensure updated content was served.
+2. Apache Virtual Host Not Configured Initially
+   - Problem: Website was using Apache’s default config (`000-default.conf`), which caused conflicts during SSL installation.
+   - Solution: Created a new virtual host config (`mybhutan.com.conf`) with the correct `ServerName` and `DocumentRoot`, and enabled it using `sudo a2ensite mybhutan.com.conf`.
 
-5.	Website not visible in the browser. 
-- Problem: after completing all the configuration related to hosting the website on ec2 instance, website is not opening when you search the public ip in the browser.
-- Solution – check the ports enabled in the inbound rules under the instance > security> security group. 
-  Add the necessary port rule like port 80, port 22. 
+3. Website Content Not Updating
+   - Problem: Changes made to HTML files weren’t reflecting in the browser.
+   - Solution: Cleared browser cache and restarted Apache using `sudo systemctl restart apache2` to ensure updated content was served.
+
+4. Website Not Visible in the Browser
+   - Problem: After completing all configurations for hosting the website on the EC2 instance, the website was not opening when entering the public IP in the browser.
+   - Solution: Checked the inbound rules under EC2 → Security Groups → Inbound Rules. Added necessary port rules (port 80 for HTTP and port 22 for SSH). Once port 80 was enabled, the website became accessible via the browser.
 
 
+# Modifications of the Website
+1. Added the back to top button at the end of the website
+   - Improves user experience by allowing quick navigation back to the top of the page, especially on long scrolling websites.
+   - Enhance the accessibility and usability, making the site easier and convenient to explore.
+   - To do this, i simply add the script to my html by steps below:
+     1. cd Downloads
+     2. ssh -i "myBhutanweb.pem" ubuntu@3.27.146.62
+     3. sudo nano /var/www/my-bhutan/index.html
+     4. Pasted the script from my Notepad just before the `</body>` tag.
+        
+2. Added the Contact Form under the Contact section
+   - Provides visitors with an easy and direct way to submit inquiries or feedback through the website.
+   - Enhances user engagement and encourages communication between the website owner and visitors.
+   - To do this, I used the following steps:
+     1. cd Downloads
+     2. ssh -i "myBhutanweb.pem" ubuntu@3.27.146.62
+     3. sudo nano /var/www/my-bhutan/index.html
+     4. Replaced the original Contact section with a new block of code that includes:
+        - A link saying "Click here to Contact Us for further support".
+        - A Contact Form that appears when the link is clicked (toggle script used).
+
+   
+   
 # Live Site
 link to the public ip - Visit myBhutan website
 - https://www.my-bhutan.com
