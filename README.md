@@ -1,12 +1,14 @@
 # myBhutan-cloud-server-project
 
 ## Project Overview
-This project is a static tourism website called **myBhutan**, deployed on an AWS EC2 instance using Apache web server. It aims to showcase the beauty and travel highlights of Bhutan.
+This is a static tourism website called **myBhutan**, showcasing the beauty and culture of Bhutan.  
+It is deployed on an AWS EC2 instance running Ubuntu 22.04 and Apache web server.  
+The project demonstrates end-to-end website deployment, DNS setup, SSL/TLS security, and automated backup.
 
-### Video Walkthrough
+## Video Walkthrough
 Click here to watch the full walkthrough - link to access the video explaining the project 
 
-####  Technologies Used
+##  Technologies Used
 - HTML / CSS for website index html
 - Ubuntu 22.04 LTS virtual machine operating system 
 - Apache2 webserver 
