@@ -35,35 +35,35 @@ Click here to watch the full walkthrough - link to access the video explaining t
 ### 3. Setup Virtual Host
 A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own settings and content from the /var/www/my-bhutan directory.
 
- 1. Create a directory for my  domain "my-bhutan"
-  - sudo mkdir -p /var/www/my-bhutan
-3. Assign the ownership of the directory to the current user (currently signed in as)
-  - sudo chown -R $USER:$USER /var/www/my-bhutan 
+1. Create a directory for my  domain "my-bhutan"
+   - sudo mkdir -p /var/www/my-bhutan
+2. Assign the ownership of the directory to the current user (currently signed in as)
+     - sudo chown -R $USER:$USER /var/www/my-bhutan 
 3. Allow permission to read, write and execute to the owner and read and execute to the groups and others involved.
-  - sudo chmod -R 755 /var/www/ my-bhutan
+     - sudo chmod -R 755 /var/www/ my-bhutan
 4. Create a new virtual host folder
-  - sudo nano /etc/apache2/sites-available/my-bhutan.com.conf
-5.Create sample index html using nano and save the file
-  - sudo nano /var/www/ my-bhutan /index.html and # Ctrl+O → Enter → Ctrl+X
+     - sudo nano /etc/apache2/sites-available/my-bhutan.com.conf
+5. Create sample index html using nano and save the filesudo
+     - nano /var/www/ my-bhutan /index.html and # Ctrl+O → Enter → Ctrl+X
 6. Copy the default Apache config to create your own site config so that you dont have to touch the default file.
-  - sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/my-bhutan.conf
+     - sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/my-bhutan.conf
 7. Edit the new config file with your domain and web folder details.
-  - sudo nano /etc/apache2/sites-available/my-bhutan.conf
+     - sudo nano /etc/apache2/sites-available/my-bhutan.conf
 8. Reload the server before executing the a2ensite command due to modifications made to the configuration file.
-  - sudo systemctl reload apache2
+     - sudo systemctl reload apache2
 9. Enable the Virtual host with the a2ensite tool:
-  - sudo a2ensite my-bhutan.conf
-10. Disable the default site ensure that Apache uses only your VirtualHost (my-bhutan.conf) to serve your website without any confusion and issues. But you can enable if required anytime. 
-  - sudo a2dissite 000-default.conf
+      - sudo a2ensite my-bhutan.conf
+10. Disable the default site ensure that Apache uses only your VirtualHost (my-bhutan.conf) to serve your website without any confusion and issues. But you can enable if required anytime.
+      - sudo a2dissite 000-default.conf
 11. You can check if it's disabled as expected
-  - ls /etc/apache2/sites-enabled/ OR
-12. Verify that your Virtual Host config 
-  - ls /etc/apache2/sites-available/
+      - ls /etc/apache2/sites-enabled/ OR
+12. Verify that your Virtual Host config
+      - ls /etc/apache2/sites-available/
 
-* Output :
--  000-default.conf - means default file
-- default-ssl.conf - SSL of default file
-- my-bhutan.com.conf - Website file 
+* Output:
+  - 000-default.conf - means default file
+  - default-ssl.conf - SSL of default file
+  - my-bhutan.com.conf - Website file 
 
 
 ### 3. Upload and Unzip Website Content 
@@ -83,7 +83,8 @@ A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own se
      - sudo cp -r myBhutanWebsite/* /var/www/my-bhutan/
 8. Verify the process.
     - ls -lh /var/www/my-bhutan/
-* Output - you will be able to see all the contents of your website folder displayed.
+* Output:
+    - You will be able to see all the contents of your website folder displayed.
 
 
 ### 4. Restart Apache
@@ -96,24 +97,25 @@ A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own se
 - Purchased domain my-bhutan.com.
   
 ### DNS Configuration:
-- Go to GoDaddy → Manage Domains → DNS → Manage Zones.
-- Find your domain my-bhutan.com.
-- Under DNS Records, create or update these A Records:
-  - A	@	your EC2 Public IPv4 address	1 hour or default
-  - A	www	your EC2 Public IPv4 address	1 hour or default
-- Waited for DNS to propagate as it takes some time.
-- Verified by accessing link show your website hosted of EC2  http://my-bhutan.com / https://www.my-bhutan.com
+1. Go to GoDaddy → Manage Domains → DNS → Manage Zones.
+2.  Find your domain my-bhutan.com.
+3. Under DNS Records, create or update these A Records:
+     - A	@	your EC2 Public IPv4 address	1 hour or default
+     - A	www	your EC2 Public IPv4 address	1 hour or default
+4.  Waited for DNS to propagate as it takes some time.
+5. Verified by accessing link show your website hosted of EC2  http://my-bhutan.com / https://www.my-bhutan.com
 
 
 # Security Setup
 
-### SSH key authentication - add inbound rules on EC2 instance dialog box
-- Select the running instance
-- Scroll to the bottom of the instance details pane.
-- Under Security, click the Security group name
-- Click “Edit inbound rules
-- Added ports 22, 80, 443.
-- Save the rule 
+### SSH key authentication - Add Inbound Rules on EC2 Instance
+#### Steps
+1. Select the running instance
+2. Scroll to the bottom of the instance details pane.
+3. Under Security, click the Security group name
+4. Click “Edit inbound rules
+5. Added ports 22, 80, 443.
+6. Save the rule 
 
 
 ### SSL installation using Certbot inside EC2 to turn your website to https
@@ -123,33 +125,34 @@ A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own se
 * Certbot is used to request and auto-renew these certificates.
 
 #### Steps:
-1.Update and upgrade the packages:
-   - sudo apt update && sudo apt upgrade –y
-   - sudo apt install snapd
-2. Remove certbot-auto and any Certbot OS packages 
-   - sudo apt-get remove certbot  
+1. Update and upgrade the packages.
+     - sudo apt update && sudo apt upgrade –y
+     - sudo apt install snapd
+2. Remove certbot-auto and any Certbot OS packages
+     - sudo apt-get remove certbot  
 3. Install Certbot using snap
-  - sudo snap install --classic certbot -  
+     - sudo snap install --classic certbot -  
 4. Request or renew an SSL certificate from Let’s Encrypt
-   - sudo certbot -apache -d my-bhutan.com -d www.my-bhutan.com
+     - sudo certbot -apache -d my-bhutan.com -d www.my-bhutan.com
 
 ### Scripting Using Bash Script and Cronjob 
 * Used to create automatic backup of the website files and stored it in /home/mybhutan/backup.
 
 #### Steps:
 1. Create a backup folder.
-  - sudo mkdir -p /home/mybhutan/backup
+     - sudo mkdir -p /home/mybhutan/backup
 2. Check if the folder is created:
-  - ls -lh /home/mybhutan/backup
+     - ls -lh /home/mybhutan/backup
 3. Create the script for the backup
- - sudo nano /home/ubuntu/backup-mybhutan.sh.
+     - sudo nano /home/ubuntu/backup-mybhutan.sh.
 4. Save and exit the script file.
-5. Make the script executable 
-  - sudo chmod +x /home/ubuntu/backup-mybhutan.sh
+5. Make the script executable
+     - sudo chmod +x /home/ubuntu/backup-mybhutan.sh
 6. Run the script to test
-  - sudo /home/ubuntu/backup-mybhutan.sh
+     - sudo /home/ubuntu/backup-mybhutan.sh
 7. check the backup file
-  - /home/mybhutan/backup
+     - ls -lh /home/mybhutan/backup
+
 
 * Output:
   - rw-r--r-- 1 root root   31 Jun  7 10:28 backup.log
@@ -162,9 +165,9 @@ A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own se
 
 #### Steps:
 1. Open the crontab editor:
-  - crontab -e  
+     - crontab -e  
 2. Add the following line at the bottom:
-  -  0 2 * * * /home/ubuntu/backup-mybhutan.sh 
+     - 0 2 * * * /home/ubuntu/backup-mybhutan.sh 
   - This means:Run the backup script automatically every day at 2:00 AM.
 3. Save (Ctrl + O, then Enter) → Exit (Ctrl + X).
 
