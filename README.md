@@ -37,11 +37,10 @@ A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own se
 
  1. Create a directory for my  domain "my-bhutan"
   - sudo mkdir -p /var/www/my-bhutan
-
-2. Assign the ownership of the directory to the current user (currently signed in as)
-- sudo chown -R $USER:$USER /var/www/my-bhutan 
+3. Assign the ownership of the directory to the current user (currently signed in as)
+  - sudo chown -R $USER:$USER /var/www/my-bhutan 
 3. Allow permission to read, write and execute to the owner and read and execute to the groups and others involved.
-- sudo chmod -R 755 /var/www/ my-bhutan
+  - sudo chmod -R 755 /var/www/ my-bhutan
 4. Create a new virtual host folder
   - sudo nano /etc/apache2/sites-available/my-bhutan.com.conf
 5.Create sample index html using nano and save the file
@@ -55,9 +54,9 @@ A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own se
 9. Enable the Virtual host with the a2ensite tool:
   - sudo a2ensite my-bhutan.conf
 10. Disable the default site ensure that Apache uses only your VirtualHost (my-bhutan.conf) to serve your website without any confusion and issues. But you can enable if required anytime. 
-- sudo a2dissite 000-default.conf
+  - sudo a2dissite 000-default.conf
 11. You can check if it's disabled as expected
-- ls /etc/apache2/sites-enabled/ OR
+  - ls /etc/apache2/sites-enabled/ OR
 12. Verify that your Virtual Host config 
   - ls /etc/apache2/sites-available/
 
@@ -68,22 +67,22 @@ A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own se
 
 
 ### 3. Upload and Unzip Website Content 
-1. Enabled the virtual host. 
-  - sudo a2ensite my-bhutan.com.conf
-2. Reload the Apache to apply the changes 
-  - sudo systemctl reload apache2
-3.Exit the EC2 instance
-  - Exit
+1. Enabled the virtual host.
+     - sudo a2ensite my-bhutan.com.conf
+2. Reload the Apache to apply the changes
+     - sudo systemctl reload apache2
+3. Exit the EC2 instance
+     -  Exit
 4. From the local computer, upload the  website zip file to EC2:
-  - scp -i "myBhutanweb.pem" myBhutanWebsite.zip ubuntu@your-ec2-ip:~ 
+     - scp -i "myBhutanweb.pem" myBhutanWebsite.zip ubuntu@your-ec2-ip:~ 
 5. SSH back to EC2 Instance
-  - ssh -i "myBhutanweb.pem" ubuntu@3.27.146.62 
+     - ssh -i "myBhutanweb.pem" ubuntu@3.27.146.62 
 6. Unzip the webiste file content
-  - unzip myBhutanWebsite.zip
+     -  unzip myBhutanWebsite.zip
 7. Copy the website files to the web server directory
-  - sudo cp -r myBhutanWebsite/* /var/www/my-bhutan/
+     - sudo cp -r myBhutanWebsite/* /var/www/my-bhutan/
 8. Verify the process.
-  - ls -lh /var/www/my-bhutan/
+    - ls -lh /var/www/my-bhutan/
 * Output - you will be able to see all the contents of your website folder displayed.
 
 
@@ -163,11 +162,11 @@ A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own se
 
 #### Steps:
 1. Open the crontab editor:
-- crontab -e  
+  - crontab -e  
 2. Add the following line at the bottom:
--  0 2 * * * /home/ubuntu/backup-mybhutan.sh 
-- This means:Run the backup script automatically every day at 2:00 AM.
-- Save (Ctrl + O, then Enter) → Exit (Ctrl + X).
+  -  0 2 * * * /home/ubuntu/backup-mybhutan.sh 
+  - This means:Run the backup script automatically every day at 2:00 AM.
+3. Save (Ctrl + O, then Enter) → Exit (Ctrl + X).
 
  # Challenges and Troubleshooting
 
@@ -209,12 +208,35 @@ A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own se
      4. Replaced the original Contact section with a new block of code that includes:
         - A link saying "Click here to Contact Us for further support".
         - A Contact Form that appears when the link is clicked (toggle script used).
-
-   
-   
-# Live Site
+       
+ # Live Site
 link to the public ip - Visit myBhutan website
-- https://www.my-bhutan.com
+  - https://www.my-bhutan.com
+    
+
+ # Re-Deployment Guide with Updated Website Content 
+To update or redeploy the website content after initial deployment following the above steps:
+
+1. Prepare the updated website files on your local machine as desired.(e.g., update HTML, images, styles)
+2. Compress the updated files into a zip file (e.g., `myBhutanWebsite.zip`).
+3. Upload the updated zip file to your EC2 instance. Replace ec2-ip with public ip. 
+4.  SSH into your EC2 instance
+5.  Unzip and overwrite the existing website file
+6.  Restart Apache to apply the changes
+7.  Verify the website in your browser to confirm that the updates are live.
+   
+```bash
+scp -i "myBhutanweb.pem" myBhutanWebsite.zip ubuntu@your-ec2-ip:~
+ssh -i "myBhutanweb.pem" ubuntu@your-ec2-ip
+unzip -o myBhutanWebsite.zip
+sudo cp -r myBhutanWebsite/* /var/www/my-bhutan/
+*'unzip -o'ensures that existing files are replaced with the new ones easily.
+sudo systemctl restart apache2
+https://my-bhutan.com
+
+
+ 
+
 
 
 
