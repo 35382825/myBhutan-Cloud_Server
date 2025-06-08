@@ -108,7 +108,14 @@ A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own se
 
 # Security Setup
 
-### SSH key authentication - Add Inbound Rules on EC2 Instance
+### SSH key authentication - Key Pair 
+- SSH key authentication allows only trusted users to access the EC2 instance. 
+- Created a key pair "myBhutanweb.pem"
+- only accept SSH connections from someone using myBhutanweb.pem 
+
+### Add Inbound Rules on EC2 Instance
+- Inbound rules (under Security Groups) control which traffic is allowed to reach your server.
+  
 #### Steps
 1. Select the running instance
 2. Scroll to the bottom of the instance details pane.
