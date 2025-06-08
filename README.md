@@ -26,7 +26,6 @@ Click here to watch the full walkthrough - link to access the video explaining t
 - Selected t2.micro instance
 - Set up security groups to allow ports 22, 80, 443
 - Connected to EC2 via SSH
- ```bash
   ssh -i "myBhutanweb.pem" ubuntu@3.27.146.62
 
 ### 2. Installed Apache
