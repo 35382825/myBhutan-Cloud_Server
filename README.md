@@ -39,7 +39,7 @@ A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own se
   - sudo mkdir -p /var/www/my-bhutan
 
 2. Assign the ownership of the directory to the current user (currently signed in as)
-- sudo chown -R $USER:$USER /var/www/ my-bhutan 
+- sudo chown -R $USER:$USER /var/www/my-bhutan 
 3. Allow permission to read, write and execute to the owner and read and execute to the groups and others involved.
 - sudo chmod -R 755 /var/www/ my-bhutan
 4. Create a new virtual host folder
@@ -70,7 +70,7 @@ A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own se
 ### 3. Upload and Unzip Website Content 
 1. Enabled the virtual host. 
   - sudo a2ensite my-bhutan.com.conf
-2. Reload the Apache ro apply the changes 
+2. Reload the Apache to apply the changes 
   - sudo systemctl reload apache2
 3.Exit the EC2 instance
   - Exit
@@ -150,7 +150,8 @@ A Virtual Host allows Apache to serve my website (my-bhutan.com) with its own se
 6. Run the script to test
   - sudo /home/ubuntu/backup-mybhutan.sh
 7. check the backup file
-  - ls /home/ubuntu/backups
+  - /home/mybhutan/backup
+
 * Output:
   - rw-r--r-- 1 root root   31 Jun  7 10:28 backup.log
   - rw-r--r-- 1 root root  491 Jun  7 10:28 my-bhutan-apache-config-2025-06-07.conf
