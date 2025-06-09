@@ -6,7 +6,8 @@ It is deployed on an AWS EC2 instance running Ubuntu 22.04 and Apache web server
 The project demonstrates end-to-end website deployment, DNS setup, SSL/TLS security, and automated backup.
 
 ## Video Walkthrough
-Click here to watch the full walkthrough - link to access the video explaining the project 
+Link to watch the video.
+- https://drive.google.com/file/d/1W4nOmXn3Qv4D5E2bEUymRPqe7JG40634/view?usp=sharing 
 
 ##  Technologies Used
 - HTML / CSS for website 
